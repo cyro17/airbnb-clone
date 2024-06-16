@@ -19,7 +19,6 @@ export async function createAirbnbHome({ userId }: { userId: string }) {
         userId: userId,
       },
     });
-
     return redirect(`/create/${data.id}/structure`);
   } else if (
     !data.addedCategory &&
@@ -53,15 +52,15 @@ export async function createAirbnbHome({ userId }: { userId: string }) {
 export async function createCategoryPage(formData: FormData) {
   const categoryName = formData.get("categoryName") as string;
   const homeId = formData.get("homeId") as string;
-  // const data = await prisma.home.update({
-  //   where: {
-  //     id: homeId,
-  //   },
-  //   data: {
-  //     categoryName: categoryName,
-  //     addedCategory: true,
-  //   },
-  // });
+  const data = await prisma.home.updateMany({
+    where: {
+      id: homeId,
+    },
+    data: {
+      categoryName: categoryName,
+      addedCategory: true,
+    },
+  });
 
   return redirect(`/create/${homeId}/description`);
 }
@@ -84,21 +83,36 @@ export async function CreateDescription(formData: FormData) {
       contentType: "image/png",
     });
 
-  // const data = await prisma.home.update({
-  //   where: {
-  //     id: homeId,
-  //   },
-  //   data: {
-  //     title: title,
-  //     description: description,
-  //     price: Number(price),
-  //     bedrooms: roomNumber,
-  //     bathrooms: bathroomsNumber,
-  //     guests: guestNumber,
-  //     photo: imageData?.path,
-  //     addedDescription: true,
-  //   },
-  // });
+  const data = await prisma.home.updateMany({
+    where: {
+      id: homeId,
+    },
+    data: {
+      title: title,
+      description: description,
+      price: Number(price),
+      bedrooms: roomNumber,
+      bathrooms: bathroomsNumber,
+      guests: guestNumber,
+      photo: imageData?.path,
+      addedDescription: true,
+    },
+  });
 
   return redirect(`/create/${homeId}/address`);
+}
+
+export async function createLocation(formData: FormData) {
+  const homeId = formData.get("homeId") as string;
+  const countryName = formData.get("countryValue") as string;
+  const data = await prisma.home.updateMany({
+    where: {
+      id: "",
+    },
+    data: {
+      addedLocation: true,
+      country: countryName,
+    },
+  });
+  return redirect("/");
 }

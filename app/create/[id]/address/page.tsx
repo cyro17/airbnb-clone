@@ -1,5 +1,6 @@
 "use client";
 
+import { createLocation } from "@/app/action";
 import { BottomBar } from "@/app/components/BottomBar";
 import { useCountries } from "@/app/lib/getCountries";
 import {
@@ -15,7 +16,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 
-export default function AddressRoutw({ params }: { params: { id: string } }) {
+export default function AddressRoute({ params }: { params: { id: string } }) {
   const { getAllCountries } = useCountries();
   const [locationValue, setLocationValue] = useState("");
 
@@ -31,8 +32,8 @@ export default function AddressRoutw({ params }: { params: { id: string } }) {
         </h2>
       </div>
 
-      <form>
-        <input type="hidden" name="homeId" value={params.id} />
+      <form action={createLocation}>
+        <input type="hidden" name="homeID" value={params.id} />
         <input type="hidden" name="countryValue" value={locationValue} />
         <div className="w-3/5 mx-auto mb-36">
           <div className="mb-5">
