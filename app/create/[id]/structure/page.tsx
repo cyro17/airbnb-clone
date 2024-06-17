@@ -1,4 +1,4 @@
-import { createCategoryPage } from "@/app/action";
+import { createCategory } from "@/app/action";
 import { BottomBar } from "@/app/components/BottomBar";
 import { SelectedCategory } from "@/app/components/SelectedCategory";
 
@@ -11,7 +11,7 @@ export default function StructureRoute({ params }: { params: { id: string } }) {
         </h2>
       </div>
 
-      <form action={createCategoryPage}>
+      <form action={createCategory}>
         <input type="hidden" name="homeId" value={params.id} />
         <SelectedCategory />
         <BottomBar />

@@ -33,7 +33,7 @@ export default function AddressRoute({ params }: { params: { id: string } }) {
       </div>
 
       <form action={createLocation}>
-        <input type="hidden" name="homeID" value={params.id} />
+        <input type="hidden" name="homeId" value={params.id} />
         <input type="hidden" name="countryValue" value={locationValue} />
         <div className="w-3/5 mx-auto mb-36">
           <div className="mb-5">
