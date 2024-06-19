@@ -3,10 +3,14 @@ import prisma from "./lib/db";
 import ListingCard from "./components/ListingCard";
 import { Suspense } from "react";
 import { SkeletonCard } from "./components/SkeletonCard";
+import { NoItems } from "./components/NoItem";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 async function getData({
   searchParams,
+  userId,
 }: {
+  userId: string | undefined;
   searchParams?: {
     filter?: string;
   };
@@ -24,6 +28,11 @@ async function getData({
       price: true,
       description: true,
       country: true,
+      Favorite: {
+        where: {
+          userId: userId ?? undefined,
+        },
+      },
     },
   });
   // console.log(data);
@@ -54,22 +63,34 @@ async function ShowItems({
     filter?: string;
   };
 }) {
-  const data = await getData({ searchParams: searchParams });
-  console.log(data);
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+  const data = await getData({ searchParams: searchParams, userId: user?.id });
   return (
     <>
-      <div className="grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 gap-1 mt-8">
-        {data.map((item) => (
-          <ListingCard
-            key={item.id}
-            description={item.description as string}
-            imagePath={item.photo as string}
-            location={item.country as string}
-            price={item.price as number}
-            homeId={item.id}
-          />
-        ))}
-      </div>
+      {data.length === 0 ? (
+        <NoItems
+          description="Please check another category or create your own listing!"
+          title="Sorry no listings found for this category..."
+        />
+      ) : (
+        <div className="grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-8">
+          {data.map((item) => (
+            <ListingCard
+              key={item.id}
+              description={item.description as string}
+              imagePath={item.photo as string}
+              location={item.country as string}
+              price={item.price as number}
+              homeId={item.id}
+              userId={user?.id}
+              favoriteId={item.Favorite[0]?.id}
+              isInFavoriteList={item.Favorite.length > 0 ? true : false}
+              pathName="/"
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 }

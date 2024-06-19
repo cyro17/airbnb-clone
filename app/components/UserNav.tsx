@@ -37,7 +37,7 @@ export async function UserNav() {
           <img
             src={
               user?.picture ??
-              "https://imgs.search.brave.com/aC_po1CQAKIr3IzA4ZpqBE3oOTTHhNw4jOZRHW657pI/rs:fit:500:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2LzMzLzU0Lzc4/LzM2MF9GXzYzMzU0/Nzg0Ml9BdWdZemV4/VHBNSjl6MVljcFRL/VUJvcUJGMENVQ2sx/MC5qcGc"
+              "https://www.tenforums.com/attachments/user-accounts-family-safety/322690d1615743307-user-account-image-log-user.png"
             }
             alt="user picture"
             className="rounded-full h-8 w-8  hidden lg:block "
