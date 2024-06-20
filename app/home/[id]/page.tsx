@@ -1,5 +1,8 @@
+import { CategoryShowcase } from "@/app/components/CategoryShowCase";
+import { HomeMap } from "@/app/components/HomeMap";
 import prisma from "@/app/lib/db";
 import { useCountries } from "@/app/lib/getCountries";
+import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 
 async function getData(homeId: string) {
@@ -17,9 +20,11 @@ async function getData(homeId: string) {
       categoryName: true,
       price: true,
       country: true,
+
       User: {
         select: {
           profileImage: true,
+          firstName: true,
         },
       },
     },
@@ -66,8 +71,27 @@ export default async function HomeRoute({
               alt="user image"
               width={200}
               height={200}
+              className="w-11 h-11 rounded-full"
             />
+            <div className="mx-5">
+              <h3 className="font-medium">Hosted by {data?.User?.firstName}</h3>
+              <p>Host since 2015</p>
+            </div>
           </div>
+
+          <Separator className="my-7" />
+
+          <CategoryShowcase categoryName={data?.categoryName as string} />
+
+          <Separator className="my-7" />
+
+          <p className="text-muted-foreground">{data?.description}</p>
+
+          <Separator className="my-7" />
+
+          <HomeMap locationValue={data?.country as string} />
+
+          <Separator className="my-7" />
         </div>
       </div>
     </div>
